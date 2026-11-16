@@ -1,0 +1,17 @@
+# .NET
+bin/
+obj/
+publish/
+*.user
+*.suo
+.vs/
+
+# İmza anahtarları
+*.pfx
+*.snk
+
+# Sistem / editör
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
