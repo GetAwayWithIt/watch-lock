@@ -1,5 +1,5 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/EkranKilidi/EkranKilidi.csproj" />
+    <Project Path="src/WatchLock/WatchLock.csproj" />
   </Folder>
 </Solution>

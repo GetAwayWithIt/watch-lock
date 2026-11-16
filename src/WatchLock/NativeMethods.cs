@@ -1,11 +1,11 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace EkranKilidi;
+namespace WatchLock;
 
 internal static class NativeMethods
 {
-    // --- Hook'lar ---
+    // --- Low-level hooks ---
     public const int WH_KEYBOARD_LL = 13;
     public const int WH_MOUSE_LL = 14;
     public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
@@ -20,6 +20,7 @@ internal static class NativeMethods
     public struct MSLLHOOKSTRUCT { public POINT pt; public uint mouseData, flags, time; public IntPtr dwExtraInfo; }
 
     public const uint LLKHF_ALTDOWN = 0x20;
+    public const uint LLKHF_UP = 0x80;
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -28,7 +29,7 @@ internal static class NativeMethods
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr GetModuleHandle(string? name);
     [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
 
-    // --- Pencere / odak ---
+    // --- Windows and focus ---
     [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
     [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint pid);
@@ -41,9 +42,9 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     public static extern bool SetWindowPos(IntPtr hWnd, IntPtr after, int x, int y, int cx, int cy, uint flags);
     public static readonly IntPtr HWND_TOPMOST = new(-1);
-    public const uint SWP_NOMOVE = 0x2, SWP_NOSIZE = 0x1, SWP_NOACTIVATE = 0x10, SWP_SHOWWINDOW = 0x40;
+    public const uint SWP_SHOWWINDOW = 0x40;
 
-    // --- Monitörler ---
+    // --- Monitors ---
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT { public int Left, Top, Right, Bottom; }
 
@@ -55,22 +56,22 @@ internal static class NativeMethods
     [DllImport("user32.dll")] public static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr clip, MonitorEnumProc cb, IntPtr data);
     [DllImport("user32.dll")] public static extern bool GetMonitorInfo(IntPtr hMon, ref MONITORINFO mi);
 
-    public record Monitor(RECT Alan, bool Birincil);
+    public record Monitor(RECT Bounds, bool IsPrimary);
 
-    public static List<Monitor> Monitorler()
+    public static List<Monitor> GetMonitors()
     {
-        var liste = new List<Monitor>();
+        var list = new List<Monitor>();
         EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr h, IntPtr _, ref RECT _, IntPtr _) =>
         {
             var mi = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
             if (GetMonitorInfo(h, ref mi))
-                liste.Add(new Monitor(mi.rcMonitor, (mi.dwFlags & MONITORINFOF_PRIMARY) != 0));
+                list.Add(new Monitor(mi.rcMonitor, (mi.dwFlags & MONITORINFOF_PRIMARY) != 0));
             return true;
         }, IntPtr.Zero);
-        return liste;
+        return list;
     }
 
-    // --- Masaüstü (Ctrl+Alt+Del / güvenli masaüstü tespiti) ---
+    // --- Desktops (detecting Ctrl+Alt+Del / the secure desktop) ---
     [DllImport("user32.dll", SetLastError = true)] public static extern IntPtr OpenInputDesktop(uint flags, bool inherit, uint access);
     [DllImport("user32.dll")] public static extern bool CloseDesktop(IntPtr hDesk);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -78,8 +79,8 @@ internal static class NativeMethods
     private const int UOI_NAME = 2;
     private const uint DESKTOP_READOBJECTS = 0x0001;
 
-    /// <summary>Girdi masaüstü normal "Default" masaüstü mü? Ctrl+Alt+Del / kilit ekranında false döner.</summary>
-    public static bool NormalMasaustundeMi()
+    /// <summary>Is input going to the normal "Default" desktop? False on the Ctrl+Alt+Del, UAC or lock screen.</summary>
+    public static bool IsOnDefaultDesktop()
     {
         IntPtr d = OpenInputDesktop(0, false, DESKTOP_READOBJECTS);
         if (d == IntPtr.Zero) return false;
@@ -94,7 +95,7 @@ internal static class NativeMethods
 
     [DllImport("user32.dll")] public static extern bool LockWorkStation();
 
-    // --- Sistem tepsisi ---
+    // --- System tray ---
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct NOTIFYICONDATA
     {
@@ -123,27 +124,21 @@ internal static class NativeMethods
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern uint RegisterWindowMessage(string name);
 
-    // --- Açılır menü ---
+    // --- Popup menu ---
     [DllImport("user32.dll")] public static extern IntPtr CreatePopupMenu();
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern bool AppendMenu(IntPtr menu, uint flags, UIntPtr id, string? text);
     [DllImport("user32.dll")] public static extern int TrackPopupMenu(IntPtr menu, uint flags, int x, int y, int reserved, IntPtr hwnd, IntPtr rect);
     [DllImport("user32.dll")] public static extern bool DestroyMenu(IntPtr menu);
     [DllImport("user32.dll")] public static extern bool GetCursorPos(out POINT p);
     [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr hwnd, uint msg, IntPtr w, IntPtr l);
-    public const uint MF_STRING = 0x0, MF_SEPARATOR = 0x800, MF_GRAYED = 0x1;
+    public const uint MF_STRING = 0x0, MF_SEPARATOR = 0x800;
     public const uint TPM_RETURNCMD = 0x100, TPM_RIGHTBUTTON = 0x2, TPM_BOTTOMALIGN = 0x20;
 
-    // --- Kısayol tuşu ---
-    [DllImport("user32.dll")] public static extern bool RegisterHotKey(IntPtr hwnd, int id, uint mods, uint vk);
-    [DllImport("user32.dll")] public static extern bool UnregisterHotKey(IntPtr hwnd, int id);
-    public const uint MOD_ALT = 0x1, MOD_CONTROL = 0x2, MOD_NOREPEAT = 0x4000;
-    public const int WM_HOTKEY = 0x0312;
-
-    // --- Bellek ---
+    // --- Memory ---
     [DllImport("kernel32.dll")] public static extern IntPtr GetCurrentProcess();
     [DllImport("kernel32.dll")] public static extern bool SetProcessWorkingSetSize(IntPtr proc, IntPtr min, IntPtr max);
 
-    // --- Uyku engeli ---
+    // --- Keep awake ---
     [DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint flags);
     public const uint ES_CONTINUOUS = 0x80000000, ES_SYSTEM_REQUIRED = 0x1, ES_DISPLAY_REQUIRED = 0x2;
 }

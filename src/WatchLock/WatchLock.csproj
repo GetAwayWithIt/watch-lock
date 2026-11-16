@@ -8,11 +8,13 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>app.ico</ApplicationIcon>
-    <AssemblyName>EkranKilidi</AssemblyName>
-    <Product>Ekran Kilidi</Product>
-    <Version>0.2.0</Version>
+    <AssemblyName>WatchLock</AssemblyName>
+    <RootNamespace>WatchLock</RootNamespace>
+    <Product>Watch Lock</Product>
+    <Version>0.3.0</Version>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 
-    <!-- RAM: arka planda bekleyen küçük bir uygulama için hafif GC ayarları -->
+    <!-- Memory: light GC settings for a small app that mostly waits in the tray -->
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
   </PropertyGroup>

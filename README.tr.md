@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/logo/logo-128.png" width="96" alt="Ekran Kilidi logosu">
+  <img src="assets/logo/logo-128.png" width="96" alt="Watch Lock logosu">
 </p>
 
-<h1 align="center">Ekran Kilidi (Watch Lock)</h1>
+<h1 align="center">Watch Lock</h1>
 
 <p align="center">
   <b>Ekranın görünür kalır, klavye ve fare kilitlenir.</b><br>
@@ -22,16 +22,17 @@ Bilgisayarında uzun bir iş çalışıyor: bir yapay zekâ ajanı (Claude Code,
 - **Win+L** ile kilitlersen ekran kapanır, işin ne durumda olduğunu göremezsin.
 - **Açık bırakırsan** biri (çocuk, kedi, ofis arkadaşı) gelip bir tuşa basar, terminale bir şey yazar, pencereyi kapatır.
 
-Ekran Kilidi ikisinin ortası: **ekran olduğu gibi görünür kalır, ama şifreni yazana kadar kimse klavyeye ya da fareye dokunamaz.** Arkadaki işin çalışmaya devam eder, bilgisayar uykuya da geçmez.
+Watch Lock ikisinin ortası: **ekran olduğu gibi görünür kalır, ama şifreni yazana kadar kimse klavyeye ya da fareye dokunamaz.** Arkadaki işin çalışmaya devam eder, bilgisayar uykuya da geçmez.
 
 ## Özellikler
 
 - 🔒 **Görünür kilit:** Ekranın üstüne hafif karartılmış, saydam bir katman gelir. Altındaki her şeyi görmeye devam edersin.
 - ⌨️ **Klavye ve fare kilidi:** Tuşlar ve tıklamalar sadece şifre kutusuna gider. Alt+Tab, Win tuşu, Alt+F4, Ctrl+Shift+Esc engellenir.
-- 🛡️ **Ctrl+Alt+Del'de Windows kilidine düşer:** Ctrl+Alt+Del'i hiçbir uygulama engelleyemez. Ekran Kilidi bunu fark edince anında gerçek Windows kilidini devreye sokar; bundan sonrası için Windows şifresi gerekir.
+- 🛡️ **Ctrl+Alt+Del'de Windows kilidine düşer:** Ctrl+Alt+Del'i hiçbir uygulama engelleyemez. Watch Lock bunu fark edince anında gerçek Windows kilidini devreye sokar; bundan sonrası için Windows şifresi gerekir.
 - ☕ **Uyku engeli:** Kilitliyken bilgisayar uykuya ya da ekran koruyucuya geçmez.
 - 🖥️ **Çoklu monitör:** Bütün ekranlar kilitlenir, şifre kutusu ana ekranda olur.
 - ⚡ **Kısayol:** `Ctrl+AltGr+F` ile tek tuşla kilitle.
+- 🌍 **7 dil:** English, Türkçe, Deutsch, Español, Français, Português (Brasil), Русский.
 - 🪶 **Çok hafif:** Arka planda (sistem tepsisinde) yaklaşık **2,5 MB RAM** kullanır, işlemciyi neredeyse hiç kullanmaz.
 - 🙈 **Veri toplamaz:** İnternete hiç bağlanmaz. Ayrıntılar aşağıda.
 
@@ -45,12 +46,12 @@ Ekran Kilidi ikisinin ortası: **ekran olduğu gibi görünür kalır, ama şifr
 
 ## İndirme
 
-[**Releases**](../../releases) sayfasından iki sürümden birini indir:
+[**Releases**](../../releases/latest) sayfasından iki sürümden birini indir:
 
 | Dosya | Boyut | Ne zaman? |
 |---|---|---|
-| `EkranKilidi-<sürüm>-win-x64.exe` | ~62 MB | **Önerilen.** Hiçbir şey kurmadan çalışır. |
-| `EkranKilidi-<sürüm>-win-x64-dotnet.exe` | ~240 KB | Bilgisayarında [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) varsa. |
+| `WatchLock-<sürüm>-win-x64.exe` | ~60 MB | **Önerilen.** Hiçbir şey kurmadan çalışır. |
+| `WatchLock-<sürüm>-win-x64-dotnet.exe` | ~270 KB | Bilgisayarında [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) varsa. |
 
 Kurulum yok: exe'yi istediğin bir klasöre koy ve çalıştır.
 
@@ -64,6 +65,7 @@ Kurulum yok: exe'yi istediğin bir klasöre koy ve çalıştır.
 4. **Arka planda bırak:** Pencereyi kapatınca uygulama kapanmaz, saatin yanındaki **sistem tepsisine** iner.
    - Simgeye sol tıkla: pencere açılır.
    - Sağ tıkla: Aç / Kilitle / Çıkış menüsü gelir.
+5. **Dil:** Pencerenin sağ üst köşesindeki kutudan seç. Varsayılan dil İngilizce.
 
 ### Deneme modu
 
@@ -73,39 +75,39 @@ Kurulum yok: exe'yi istediğin bir klasöre koy ve çalıştır.
 
 Panik yok, Windows hesabına erişimin olduğu sürece her zaman çıkış yolu var:
 
-1. **Ctrl+Alt+Del**'e bas. Ekran Kilidi hemen Windows kilit ekranına geçer.
+1. **Ctrl+Alt+Del**'e bas. Watch Lock hemen Windows kilit ekranına geçer.
 2. **Windows şifren ya da PIN'inle** giriş yap.
-3. Windows'a geri döndüğünde Ekran Kilidi **kendiliğinden açılır.** Mantığı şu: Windows şifresini bilen kişi zaten bilgisayarın sahibidir.
+3. Windows'a geri döndüğünde Watch Lock **kendiliğinden açılır.** Mantığı şu: Windows şifresini bilen kişi zaten bilgisayarın sahibidir.
 
 **Şifreyi sıfırlamak için:** Tepsideki simgeye sağ tıklayıp **Çıkış** de. Sonra şu dosyayı sil:
 
 ```
-%APPDATA%\EkranKilidi\ayarlar.json
+%APPDATA%\WatchLock\password.json
 ```
 
 Uygulamayı yeniden açınca yeni bir şifre ister. (Şifreyi biliyorsan pencerede **Şifreyi değiştir** bağlantısını kullanabilirsin.)
 
 ## Gizlilik ve veri toplama
 
-**Ekran Kilidi hiçbir veri toplamaz ve hiçbir yere göndermez.**
+**Watch Lock hiçbir veri toplamaz ve hiçbir yere göndermez.**
 
 - **İnternet yok:** Kodda tek bir ağ bağlantısı yok. Analitik, reklam, güncelleme kontrolü, "telemetri" yok.
 - **Şifren düz metin olarak saklanmaz:** Sadece şifrenin tek yönlü özeti (PBKDF2-SHA256, 200.000 tekrar, rastgele salt) saklanır. Bu özetten şifre geri çıkarılamaz.
-- **Bilgisayarında tuttuğu dosyalar** (hepsi `%APPDATA%\EkranKilidi\` klasöründe):
-  - `ayarlar.json`: şifre özeti ve salt
-  - `tercihler.json`: deneme modu açık mı, tepsi bildirimi gösterildi mi
-- **Tuş takibi hakkında:** Kilidin çalışması için uygulama klavyeyi alt seviyeden dinler (keylogger'ların kullandığı Windows özelliğinin aynısı). Kilit açıkken sadece `Ctrl+AltGr+F` kombinasyonuna bakar; kilitliyken de yasak tuşları engeller. **Basılan tuşlar hiçbir yere yazılmaz, kaydedilmez ya da gönderilmez.** Bunu doğrulamak istersen ilgili kod [`Tepsi.cs`](src/EkranKilidi/Tepsi.cs) ve [`LockSession.cs`](src/EkranKilidi/LockSession.cs) içinde, birkaç düzine satır.
-- **Kayıt defteri yok, otomatik başlatma yok.** Kaldırmak için exe'yi ve `%APPDATA%\EkranKilidi` klasörünü silmen yeterli.
+- **Bilgisayarında tuttuğu dosyalar** (hepsi `%APPDATA%\WatchLock\` klasöründe):
+  - `password.json`: şifre özeti ve salt
+  - `settings.json`: dil, deneme modu açık mı, tepsi bildirimi gösterildi mi
+- **Tuş takibi hakkında:** Kilidin çalışması için uygulama klavyeyi alt seviyeden dinler (keylogger'ların kullandığı Windows özelliğinin aynısı). Kilit açıkken sadece `Ctrl+AltGr+F` kombinasyonuna bakar; kilitliyken de yasak tuşları engeller. **Basılan tuşlar hiçbir yere yazılmaz, kaydedilmez ya da gönderilmez.** Bunu doğrulamak istersen ilgili kod [`TrayIcon.cs`](src/WatchLock/TrayIcon.cs) ve [`LockSession.cs`](src/WatchLock/LockSession.cs) içinde, birkaç düzine satır.
+- **Kayıt defteri yok, otomatik başlatma yok.** Kaldırmak için exe'yi ve `%APPDATA%\WatchLock` klasörünü silmen yeterli.
 
 ## Güvenlik: ne yapar, ne yapamaz?
 
-Ekran Kilidi **pratik bir kilittir, bir güvenlik ürünü değildir.** Amacı, bilgisayarının başına geçen birinin "yanlışlıkla ya da merakla" bir şeyleri bozmasını önlemek. Bilgisayarına fiziksel erişimi olan kararlı birine karşı koruma için Windows'un kendi kilidini (Win+L) ve disk şifrelemeyi (BitLocker) kullan.
+Watch Lock **pratik bir kilittir, bir güvenlik ürünü değildir.** Amacı, bilgisayarının başına geçen birinin "yanlışlıkla ya da merakla" bir şeyleri bozmasını önlemek. Bilgisayarına fiziksel erişimi olan kararlı birine karşı koruma için Windows'un kendi kilidini (Win+L) ve disk şifrelemeyi (BitLocker) kullan.
 
 Bilmen gerekenler:
 
-- **Ctrl+Alt+Del engellenemez:** Bu Windows'un bilinçli bir tasarımı. Ekran Kilidi bu durumda gerçek Windows kilidine geçer, yani kilit kırılmaz, sadece Windows'un kilidine devredilir. Ekran o noktada görünmez olur ama işin çalışmaya devam eder.
+- **Ctrl+Alt+Del engellenemez:** Bu Windows'un bilinçli bir tasarımı. Watch Lock bu durumda gerçek Windows kilidine geçer, yani kilit kırılmaz, sadece Windows'un kilidine devredilir. Ekran o noktada görünmez olur ama işin çalışmaya devam eder.
 - **Güç tuşu:** Bilgisayarın fiziksel güç tuşuna basılmasını hiçbir yazılım engelleyemez.
-- **Yönetici izni (UAC) pencereleri:** Kilitliyken bir program yönetici izni isterse Windows güvenli ekrana geçer. Ekran Kilidi bunu da Ctrl+Alt+Del gibi algılar ve Windows kilidine geçer.
+- **Yönetici izni (UAC) pencereleri:** Kilitliyken bir program yönetici izni isterse Windows güvenli ekrana geçer. Watch Lock bunu da Ctrl+Alt+Del gibi algılar ve Windows kilidine geçer.
 - **Yanlış şifre denemeleri:** Her yanlış denemeden sonra bekleme süresi artar (en fazla 2 saniye), ama henüz deneme sınırı yok. Kısa bir PIN yerine biraz uzun bir şifre seç.
 - **Antivirüs uyarısı:** Klavyeyi alt seviyeden dinlediği için bazı antivirüs programları uygulamayı şüpheli bulabilir. Kodun tamamı açık; dilersen kendin derle.
 
@@ -116,9 +118,13 @@ Bilmen gerekenler:
 | Tepside beklerken | ~2,5 MB | ~%0 |
 | Pencere açıkken | ~25-80 MB* | ~%0 |
 
-\* Bağımsız (62 MB) sürümde pencere açıkken daha yüksek. Pencere ya da kilit ekranı kapandıktan birkaç saniye sonra uygulama belleği geri bırakır ve tekrar ~2-3 MB'a iner.
+\* Bağımsız (60 MB) sürümde pencere açıkken daha yüksek. Pencere ya da kilit ekranı kapandıktan birkaç saniye sonra uygulama belleği geri bırakır ve tekrar ~2-3 MB'a iner.
 
 Bunu sağlayan: pencere kapanınca tamamen bellekten atılır, çöp toplayıcı çalıştırılır ve kullanılmayan bellek Windows'a geri verilir. Tepsi simgesi de ağır bir kütüphane yüklemeden, doğrudan Windows API'si ile yapıldı.
+
+## Çeviriler
+
+Bütün metinler tek bir dosyada: [`Strings.cs`](src/WatchLock/Strings.cs). Yeni bir dil eklemek için `Languages` listesine ekle ve İngilizce tabloyu kopyalayıp çevir. Eksik kalan metinler İngilizce görünür. Ana dili o olan kişilerden düzeltmeler ve katkılar memnuniyetle karşılanır; Türkçe dışındaki çeviriler henüz anadil konuşanlarca gözden geçirilmedi.
 
 ## Kaynak koddan derleme
 
@@ -127,28 +133,32 @@ Gerekenler: Windows 10/11, [.NET 10 SDK](https://dotnet.microsoft.com/download/d
 ```powershell
 git clone https://github.com/GetAwayWithIt/watch-lock.git
 cd watch-lock
-dotnet run --project src/EkranKilidi
+dotnet run --project src/WatchLock
 ```
 
 Tek exe çıkarmak için:
 
 ```powershell
 # Küçük (.NET 10 Desktop Runtime gerektirir)
-dotnet publish src/EkranKilidi -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -p:DebugType=none -o publish
+dotnet publish src/WatchLock -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -p:DebugType=none -o publish
 
 # Bağımsız (hiçbir şey gerektirmez)
-dotnet publish src/EkranKilidi -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -o publish/tam
+dotnet publish src/WatchLock -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -o publish/tam
 ```
 
-Logo kodla çiziliyor: `tools/ikon-ciz.ps1` → `assets/logo/` ve `src/EkranKilidi/app.ico`.
+Logo kodla çiziliyor: `tools/draw-icon.ps1` → `assets/logo/` ve `src/WatchLock/app.ico`.
+
+## v0.2'den ("Ekran Kilidi") geçiş
+
+Watch Lock'un v0.2'ye kadarki adı "Ekran Kilidi"ydi. Yeni sürüm ilk açılışta mevcut şifreni `%APPDATA%\EkranKilidi` klasöründen otomatik taşır ve arayüzü Türkçe bırakır. Eski `EkranKilidi.exe` dosyasını silebilirsin.
 
 ## Yol haritası
 
 - [ ] Belli sayıda yanlış şifreden sonra Windows kilidine geçme
 - [ ] Yanlış deneme günlüğü (saatleriyle)
-- [ ] Arayüz için İngilizce dil seçeneği
 - [ ] Windows ile birlikte başlatma seçeneği
 - [ ] Ajan işi bitince bildirim
+- [ ] Daha fazla dil
 
 ## Lisans
 
